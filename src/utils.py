@@ -1,7 +1,10 @@
+import random
+import torch
+import numpy as np
 from collections import defaultdict
 from src.data_preprocessing import preprocess_entities
-import torch
 
+# Define the label dictionary
 label_dict = {
     'O': 0,
     'B-intervention': 1,
@@ -16,9 +19,33 @@ label_dict = {
     'I-coreference': 10
 }
 
+# Create the reverse label dictionary
 reverse_label_dict = {v: k for k, v in label_dict.items()}
 
+# Set the device
+device = torch.device("cuda")
+
+# Ensure reproducibility
+def seed_everything(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
 def compute_entity_level_metrics(true_entities, pred_entities):
+    """
+    Compute entity-level metrics for a single document.
+    
+    Parameters:
+    true_entities (list): List of true entities in the document.
+    pred_entities (list): List of predicted entities in the document.
+    
+    Returns:
+    dict: A dictionary containing the entity-level metrics.
+    """
     metrics = {"EM": 0, "EB": 0, "PM": 0, "PB": 0, "ML": 0, "FA": 0}
     true_matched = set()
     pred_matched = set()
@@ -74,6 +101,18 @@ def is_overlapping(span1, span2):
     return max(start1, start2) <= min(end1, end2)
 
 def analyze_generalization(model, data, tokenizer, train_words):
+    """
+    Analyze the generalization of the model on the given data.
+    
+    Parameters:
+    model (torch.nn.Module): The trained model.
+    data (list): List of tuples containing input_ids, attention_mask, and label_tensor.
+    tokenizer (transformers.PreTrainedTokenizer): The tokenizer used to convert tokens to input_ids.
+    train_words (set): Set of words seen in the training data.
+    
+    Returns:
+    (list, dict): List of group names and a dictionary containing the entity-level metrics of each group.
+    """
     grouped_entities = defaultdict(lambda: ([], []))  # {group_name: (true_entities, pred_entities)}        
     groups=[]
     mtrcs=[]

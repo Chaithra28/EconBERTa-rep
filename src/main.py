@@ -1,23 +1,11 @@
 import time
 import torch
-import random
-import numpy as np
 from src import config
-from src.utils import analyze_generalization, label_dict
+from src.utils import analyze_generalization, seed_everything, label_dict, device
 from src.model import CRFTagger
 from src.data_preprocessing import read_conll, get_dataset
 from src.evaluation import get_validation_performance
 from transformers import AutoTokenizer, AdamW, get_linear_schedule_with_warmup
-
-# Ensure reproducibility
-def seed_everything(seed=42):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    torch.backends.cudnn.benchmark = False
-    torch.backends.cudnn.deterministic = True
 
 seed_everything()
 
@@ -41,7 +29,6 @@ val_set, val_sentences = get_dataset(val_df, tokenizer, label_dict)
 test_set, test_sentences = get_dataset(test_df, tokenizer, label_dict)
 
 # Load model
-device = torch.device("cuda")
 model = CRFTagger(model_name, len(label_dict))
 model.dropout = torch.nn.Dropout(config.dropout_rate)
 model.to(device)
