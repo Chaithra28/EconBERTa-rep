@@ -11,8 +11,14 @@
 #SBATCH --export=ALL 
 #SBATCH --time=0-04:00:00                   # D-HH:MM:SS; please choose carefully
 
-set echo
+set -x
 umask 0027
+
+# change directory to the root of the project
+cd /scratch/apathak2/Project
+
+# Add the current directory (project root) to the PYTHONPATH
+export PYTHONPATH=$(pwd):$PYTHONPATH
 
 # to see ID and state of GPUs assigned
 nvidia-smi

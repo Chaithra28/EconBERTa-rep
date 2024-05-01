@@ -1,5 +1,5 @@
 import torch
-from src.config import dropout
+from src.config import dropout_rate
 from torchcrf import CRF
 from transformers import AutoModel
 
@@ -7,7 +7,7 @@ class CRFTagger(torch.nn.Module):
     def __init__(self, model_name, num_labels):
         super().__init__()
         self.bert = AutoModel.from_pretrained(model_name)
-        self.dropout = torch.nn.Dropout(dropout)
+        self.dropout = torch.nn.Dropout(dropout_rate)
         self.classifier = torch.nn.Linear(self.bert.config.hidden_size, num_labels)
         self.crf = CRF(num_labels, batch_first=True)
 

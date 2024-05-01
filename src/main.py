@@ -43,7 +43,7 @@ test_set, test_sentences = get_dataset(test_df, tokenizer, label_dict)
 # Load model
 device = torch.device("cuda")
 model = CRFTagger(model_name, len(label_dict))
-model.dropout = torch.nn.Dropout(config.dropout)
+model.dropout = torch.nn.Dropout(config.dropout_rate)
 model.to(device)
 
 
