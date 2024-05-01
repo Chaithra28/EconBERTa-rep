@@ -7,7 +7,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4                # number of cores needed
 #SBATCH --gres=gpu:3g.40gb:1                # up to 8; only request what you need
-#SBATCH --mem-per-cpu=.4000M                 # memory per CORE; total memory is 1 TB (1,000,000 MB)
+#SBATCH --mem-per-cpu=4000M                 # memory per CORE; total memory is 1 TB (1,000,000 MB)
 #SBATCH --export=ALL 
 #SBATCH --time=0-04:00:00                   # D-HH:MM:SS; please choose carefully
 
