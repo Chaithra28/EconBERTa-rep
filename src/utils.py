@@ -1,6 +1,7 @@
 import random
 import torch
-import numpy as np
+import numpy as np    
+from enum import Enum
 from collections import defaultdict
 from src.data_preprocessing import preprocess_entities
 
@@ -156,3 +157,23 @@ def analyze_generalization(model, data, tokenizer, train_words):
         mtrcs.append(metrics)
         
     return groups, mtrcs
+
+def extract_model_name(full_string):
+    # Split the string by the '/' character
+    parts = full_string.split('/')
+    if len(parts) == 2:
+        return parts[1]  # The second part is the model name
+    else:
+        raise ValueError("Invalid model_name format. Expected 'org_name/model_name'.")  # Invalid format
+    
+
+# Define an enum for model names
+class ModelName(Enum):
+    BERT = 'google-bert/bert-base-uncased'
+    BERT_multilingual = 'google-bert/bert-base-multilingual-uncased'
+    ROBERTA = 'FacebookAI/roberta-base'
+    XLM_ROBERTA = 'FacebookAI/xlm-roberta-base'
+    MDEBERTA = 'microsoft/mdeberta-v3-base'
+    ECONBERTA_FC = 'worldbank/econberta'
+    ECONBERTA_FS = 'worldbank/econberta-fs'
+    

@@ -1,7 +1,7 @@
 import time
 import torch
 from src import config
-from src.utils import analyze_generalization, seed_everything, label_dict, device
+from src.utils import   analyze_generalization, seed_everything, extract_model_name, label_dict, device
 from src.model import CRFTagger
 from src.data_preprocessing import read_conll, get_dataset
 from src.evaluation import get_validation_performance
@@ -97,8 +97,9 @@ for lr in config.learning_rates:
     print(f"Training complete at learning rate: {lr}!")
 
     timestamp = time.strftime("%Y%m%d-%H%M%S")
-    print(f"mDeBERTa Model saved at: {timestamp}")
-    torch.save(model.state_dict(), f'mdebertamodel_lr-{lr}_{timestamp}.pth')
+    model_name = extract_model_name(model_name)
+    print(f"{model_name} model with lr {lr} saved at: {timestamp}")
+    torch.save(model.state_dict(), f'models/{model_name}_{lr}_{timestamp}.pth')
 
 print("")
 print(f"Training complete!")
