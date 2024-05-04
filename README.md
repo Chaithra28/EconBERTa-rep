@@ -1,4 +1,8 @@
-# CS678 Project - Checkpoint 1
+# EconBERTa
+Towards Robust Extraction of Named Entities in Economics
+
+>This is a PyTorch Implementation
+
 This repository contains our code for reproducing the paper [EconBERTa: Towards Robust Extraction of Named Entities in Economics](https://aclanthology.org/2023.findings-emnlp.774/) by Karim Lasri, Pedro Vitor Quinta de Castro, Mona Schirmer, Luis Eduardo San Martin, Linxi Wang, Tomáš Dulka, Haaya Naushan, John Pougué-Biyong, Arianna Legovini, and Samuel Fraiberger published at EMNLP Findings 2023.  
 
 **This implementation is totally different from the author's implementation where he used allennlp for the most part to pretrain and finetune the models.** We, on the other hand, used Pytorch and Transformers primarily. You can find the author's implementation [here](https://github.com/worldbank/econberta-econie/tree/main).
@@ -19,7 +23,7 @@ This code demonstrates how to perform Named Entity Recognition (NER) using vario
 Make sure to install the required dependencies before running the code.
 
 ## Usage
-
+> The main notebook is `notebook/EconBERTa.ipynb`
 1. Install the required dependencies.
 2. Place the dataset files (`train.conll`, `dev.conll`, `test.conll`) in the appropriate directory.
 3. Set the desired `model_name` and other hyperparameters in the code.
@@ -90,7 +94,5 @@ The code includes a function `analyze_generalization` that analyzes the model's 
 
 ## Results
 
-The code prints the training progress, validation performance, and test performance during the training and evaluation phases. The results include the classification report, entity-level metrics, and generalization analysis.  
-
-We were not able to reproduce the results of the paper using this implementation. The results we obtained were significantly lower than those reported in the paper. We suspect that the difference in implementation details and hardware may have contributed to this discrepancy.
+We were able to reproduce the trend in f1-scores among papers that the author talked about in the paper. We also implemented CheckList tests to assess model's robustness.
 
